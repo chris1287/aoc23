@@ -8,9 +8,7 @@ struct Matrix {
 #[derive(Debug)]
 struct NumberWithBoundary {
     number: usize,
-    boundary: Vec<char>,
-    r: usize,
-    c: usize,
+    boundary: Vec<char>
 }
 
 impl Matrix {
@@ -37,21 +35,8 @@ impl Matrix {
         matrix
     }
 
-    fn print(&self) {
-        for r in 0..self.rows {
-            for c in 0..self.columns {
-                print!("{}", self.data[r * self.columns + c]);
-            }
-            println!();
-        }
-    }
-
     fn at(&self, row: usize, column: usize) -> char {
         self.data[row * self.columns + column]
-    }
-
-    fn clear_at(&mut self, row: usize, column: usize) {
-        self.data[row * self.columns + column] = '.';
     }
 
     fn boundary(&self, row: usize, column: usize, left: bool, right: bool) -> Vec<char> {
@@ -125,8 +110,7 @@ impl Matrix {
                         let current_digit = current_digit.parse::<usize>().unwrap();
                         res.push(NumberWithBoundary {
                             number: current_digit,
-                            boundary: current_boundary.clone(),
-                            r, c
+                            boundary: current_boundary.clone()
                         });
                     }
                 }
@@ -139,8 +123,7 @@ impl Matrix {
                     let current_digit = current_digit.parse::<usize>().unwrap();
                     res.push(NumberWithBoundary {
                         number: current_digit,
-                        boundary: current_boundary.clone(),
-                        r, c
+                        boundary: current_boundary.clone()
                     });
                 }
             }
@@ -154,20 +137,15 @@ fn sum_number_with_boundaries(input: &str) -> usize {
 
     let boundary = matrix.unique_symbols_in_boundary();
     let mut sum_touching = 0;
-    let mut sum_not_touching = 0;
-    let mut sum_all = 0;
     for n in boundary {
         if n.boundary.len() > 0 {
             sum_touching += n.number;
-        } else {
-            sum_not_touching += n.number;
         }
-        sum_all += n.number;
     }
     sum_touching
 }
 
-fn north_west(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn north_west(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     let mut v = Vec::new();
     loop {
         if r>0 && c>0 && m.at(r-1, c-1).is_digit(10) {
@@ -184,7 +162,7 @@ fn north_west(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     Some(v.iter().collect::<String>().parse::<u32>().unwrap())
 }
 
-fn north_east(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn north_east(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     let mut v = Vec::new();
     loop {
         if r>0 && c<m.columns && m.at(r-1, c+1).is_digit(10) {
@@ -200,7 +178,7 @@ fn north_east(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     Some(v.iter().collect::<String>().parse::<u32>().unwrap())
 }
 
-fn north(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn north(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     if r>0 && m.at(r-1, c).is_digit(10) {
         // there is a number above
         let mut v = Vec::new();
@@ -226,7 +204,7 @@ fn north(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     None
 }
 
-fn south(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn south(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     if r<m.rows && m.at(r+1, c).is_digit(10) {
         // there is a number below
         let mut v = Vec::new();
@@ -252,7 +230,7 @@ fn south(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     None
 }
 
-fn west(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn west(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     let mut v = Vec::new();
     loop {
         if c>0 && m.at(r, c-1).is_digit(10) {
@@ -269,7 +247,7 @@ fn west(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     Some(v.iter().collect::<String>().parse::<u32>().unwrap())
 }
 
-fn east(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn east(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     let mut v = Vec::new();
     loop {
         if c<m.columns && m.at(r, c+1).is_digit(10) {
@@ -285,7 +263,7 @@ fn east(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     Some(v.iter().collect::<String>().parse::<u32>().unwrap())
 }
 
-fn south_west(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn south_west(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     let mut v = Vec::new();
     loop {
         if r<m.rows && c>0 && m.at(r+1, c-1).is_digit(10) {
@@ -302,7 +280,7 @@ fn south_west(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
     Some(v.iter().collect::<String>().parse::<u32>().unwrap())
 }
 
-fn south_east(m: &Matrix, mut r: usize, mut c: usize) -> Option<u32> {
+fn south_east(m: &Matrix, r: usize, mut c: usize) -> Option<u32> {
     let mut v = Vec::new();
     loop {
         if r<m.rows && c<m.columns && m.at(r+1, c+1).is_digit(10) {
