@@ -1,4 +1,6 @@
 use nom::*;
+use rayon::prelude::*;
+use indicatif::*;
 
 fn parse_line1(input: &str) -> IResult<&str, Vec<u64>> {
     let (input, _) = bytes::complete::take_until(":")(input)?;
@@ -29,14 +31,18 @@ fn parse_line2(input: &str) -> IResult<&str, u64> {
 }
 
 fn single_run(t: u64, d: u64) -> u64 {
-    let mut ways_to_win = 0;
-    for j in 0..=t {
+    let ways_to_win: u64 = (0..=t)
+        .into_par_iter()
+        .progress_count(t)
+        .map(|j|{
         let race_time = t - j;
         let travelled = j * race_time;
         if travelled > d {
-            ways_to_win += 1;
+            return 1;
         }
-    }
+        return 0;
+    })
+    .sum();
     ways_to_win
 }
 

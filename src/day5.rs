@@ -1,4 +1,5 @@
 use nom::{IResult, character, multi, bytes};
+use indicatif::*;
 
 #[derive(Debug)]
 struct SeedMap {
@@ -73,7 +74,10 @@ fn find_closest_location(seeds: &Vec<u64>, maps: &Vec<SeedMap>) -> u64 {
 
 fn find_closest_location2(seeds: &Vec<u64>, maps: &Vec<SeedMap>) -> u64 {
     let mut location = 0;
-    loop {
+    let pb = ProgressBar::new_spinner();
+    pb.enable_steady_tick(std::time::Duration::from_millis(100));
+    pb.set_message("Processing...");
+    for _ in 0..u64::MAX {
         let mut key = location;
         for map in maps.iter().rev() {
             for range in &map.ranges {
@@ -92,11 +96,13 @@ fn find_closest_location2(seeds: &Vec<u64>, maps: &Vec<SeedMap>) -> u64 {
             let start = v[0];
             let end = v[0] + v[1];
             if key >= start && key < end {
+                pb.finish_with_message("Location found");
                 return location;
             }
         }
         location += 1;
     }
+    panic!("Location not found");
 }
 
 pub fn part1() {
