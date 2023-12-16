@@ -7,22 +7,52 @@ mod day6;
 mod day7;
 mod day8;
 
+use clap::Parser;
+
+#[derive(Parser)]
+struct Args {
+    #[arg(short, long, default_value_t = 1)]
+    day: u32,
+}
+
 fn main() {
-    day1::part1();
-    day1::part2();
-    day2::part1();
-    day2::part2();
-    day3::part1();
-    day3::part2();
-    day4::part1();
-    day4::part2();
-    day5::part1();
-    day5::part2();
-    day6::part1();
-    day6::part2();
-    day7::part1();
-    day7::part2();
-    day8::part1();
-    day8::part2();
+    let args = Args::parse();
+    match args.day {
+        1 => {
+            day1::part1();
+            day1::part2();
+        },
+        2 => {
+            day2::part1();
+            day2::part2();
+        },
+        3 => {
+            day3::part1();
+            day3::part2();
+        },
+        4 => {
+            day4::part1();
+            day4::part2();
+        },
+        5 => {
+            day5::part1();
+            day5::part2();
+        },
+        6 => {
+            day6::part1();
+            day6::part2();
+        },
+        7 => {
+            day7::part1();
+            day7::part2();
+        },
+        8 => {
+            day8::part1();
+            day8::part2();
+        },
+        _ => {
+            unimplemented!();
+        }
+    }
 }
 
