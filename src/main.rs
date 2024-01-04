@@ -13,6 +13,7 @@ mod day12;
 mod day13;
 mod day14;
 mod day15;
+mod day16;
 
 use clap::Parser;
 
@@ -84,6 +85,10 @@ fn main() {
         15 => {
             day15::part1();
             day15::part2();
+        },
+        16 => {
+            day16::part1();
+            day16::part2();
         },
         _ => {
             unimplemented!();
