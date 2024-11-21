@@ -60,7 +60,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "aoc24"
+name = "aoc23"
 version = "0.1.0"
 dependencies = [
  "clap",
